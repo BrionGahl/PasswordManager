@@ -12,9 +12,6 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-//ideas
-// Add ability to have it go to website and enter credentials for you.
-
 
 public class Main extends JFrame {
 	//I don't understand the usage of this, possible explanation later in book.
