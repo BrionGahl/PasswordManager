@@ -14,9 +14,9 @@ import javax.swing.*;
 
 
 public class Main extends JFrame {
-	//I don't understand the usage of this, possible explanation later in book.
+	
 	private static final long serialVersionUID = 1L;
-//	private buttonPanel buttons;
+
 	
 	private SQLite database = new SQLite();
 	
