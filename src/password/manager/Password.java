@@ -21,6 +21,10 @@ public class Password {
 		password = "";
 	}
 	
+	public Password(String existingPass) {
+		password = existingPass;
+	}
+	
 	public Password(Password object2) {
 		password = object2.password;
 	}

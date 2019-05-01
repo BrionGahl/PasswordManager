@@ -20,7 +20,7 @@ public class SQLite {
 		
 		try
 		{
-			Class.forName("org.sqlite.JDBC");
+			Class.forName("org.sqlite.JDBC"); //loads class with this name
 			conn = DriverManager.getConnection(DB_URL);
 			System.out.println("Established Connection to DB");
 			initialize();
@@ -47,7 +47,7 @@ public class SQLite {
 //					System.out.println("Building data table.");
 					
 					Statement state1 = conn.createStatement();
-					state1.execute("CREATE TABLE data(account varchar(60), url varchar(60), password varchar(60));");
+					state1.execute("CREATE TABLE data(account varchar(60), username varchar(60), url varchar(60), password varchar(60));");
 					
 				}	
 			}
@@ -72,7 +72,7 @@ public class SQLite {
 		}
 		
 		Statement state = conn.createStatement();
-		ResultSet res = state.executeQuery("SELECT account, url, password FROM data");
+		ResultSet res = state.executeQuery("SELECT account, username, url, password FROM data");
 		
 		return res;
 	}
@@ -83,7 +83,7 @@ public class SQLite {
 		}
 		
 		Statement state = conn.createStatement();
-		ResultSet res = state.executeQuery("SELECT url, password FROM data WHERE account = '" + account + "'");
+		ResultSet res = state.executeQuery("SELECT username, url, password FROM data WHERE account = '" + account + "'");
 		
 		return res;
 	}
@@ -102,16 +102,17 @@ public class SQLite {
 		return count;
 	}
 	
-	public void addUser(String account, String url, String password) {
+	public void addUser(String account, String username,String url, String password) {
 		if (conn == null) {
 			getConnection();
 		}
 		try
 		{
-			PreparedStatement prep = conn.prepareStatement("INSERT INTO data values(?,?,?);");
+			PreparedStatement prep = conn.prepareStatement("INSERT INTO data values(?,?,?,?);");
 			prep.setString(1, account);
-			prep.setString(2, url);
-			prep.setString(3, password);
+			prep.setString(2, username);
+			prep.setString(3, url);
+			prep.setString(4, password);
 			prep.execute();	
 		}
 		catch (SQLException e)
@@ -120,11 +121,49 @@ public class SQLite {
 		}
 	}
 	
-	public void changePass(String password) {
+	public void changeUser(String account, String username) {
 		if (conn == null) {
 			getConnection();
 		}
-		//work here
+		try
+		{
+			PreparedStatement prep = conn.prepareStatement("UPDATE data SET username = '" + username + "' WHERE account = '" + account + "'");
+			prep.execute();
+		}
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+
+	public void changePass(String account, String password) {
+		if (conn == null) {
+			getConnection();
+		}
+		try
+		{
+			PreparedStatement prep = conn.prepareStatement("UPDATE data SET password = '" + password + "' WHERE account = '" + account + "'");
+			prep.execute();
+		}
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	
+	public void changeSite(String account, String url) {
+		if (conn == null) {
+			getConnection();
+		}
+		try
+		{
+			PreparedStatement prep = conn.prepareStatement("UPDATE data SET url = '" + url + "' WHERE account = '" + account + "'");
+			prep.execute();
+		}
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}	
 	}
 	
 	public void deleteUser(String account) {

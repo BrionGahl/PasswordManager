@@ -28,16 +28,16 @@ public class BrowserView {
 			if (Desktop.isDesktopSupported()) {
 				Desktop desktop = Desktop.getDesktop();
 				try {
-					desktop.browse(new URI(websiteAddress));
+					desktop.browse(new URI(websiteAddress)); //Feeds browser address.
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (URISyntaxException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			} else {
-				Runtime runtime = Runtime.getRuntime();
+				Runtime runtime = Runtime.getRuntime(); //If not on windows os, will try to execute command to runtime.
 				try {
-					runtime.exec("xdg-open " + websiteAddress);
+					runtime.exec("xdg-open " + websiteAddress); //Potential linux support untested.
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
